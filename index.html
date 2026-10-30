@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma pergunta especial...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.88);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .highlight-name {
+            color: #ff4b5c;
+            font-size: 2rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #sim {
+            background-color: #ff4b5c;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 75, 92, 0.4);
+        }
+
+        #sim:hover {
+            background-color: #e03e4d;
+            transform: scale(1.05);
+        }
+
+        #nao {
+            background-color: #e0e0e0;
+            color: #333;
+            position: relative;
+        }
+
+        /* Estilo para a tela de sucesso */
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            color: #d63384;
+            font-size: 1.6rem;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Corações flutuantes no fundo */
+        .heart {
+            position: absolute;
+            color: rgba(255, 75, 92, 0.6);
+            font-size: 20px;
+            animation: flyUp 4s linear infinite;
+            bottom: -20px;
+            z-index: 1;
+        }
+
+        @keyframes flyUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-card">
+        <span class="highlight-name">Ana Caroline</span>
+        <h1>Aceita namorar comigo? ❤️</h1>
+        <p>Você é a pessoa mais especial da minha vida. Vamos dar esse próximo passo juntos?</p>
+        <div class="buttons">
+            <button id="sim" onclick="aceitou()">Sim! 💍</button>
+            <button id="nao" onmouseover="fugir()" onclick="fugir()">Não</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="success-card">
+        <h1 class="success-message">Ebaaa! Sabia que diria sim! 🥰🎉</h1>
+        <p>Agora já somos oficialmente namorados! Manda o print dessa tela pra mim no WhatsApp! ❤️</p>
+    </div>
+
+    <script>
+        // Função para fazer o botão "Não" fugir do mouse (versão divertida)
+        function fugir() {
+            const btnNao = document.getElementById('nao');
+            const maxX = window.innerWidth - btnNao.offsetWidth - 50;
+            const maxY = window.innerHeight - btnNao.offsetHeight - 50;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = randomX + 'px';
+            btnNao.style.top = randomY + 'px';
+        }
+
+        // Função chamada quando ela clica em "Sim"
+        function aceitou() {
+            document.getElementById('main-card').classList.add('hidden');
+            document.getElementById('success-card').classList.remove('hidden');
+            
+            // Dispara mais corações ao aceitar
+            setInterval(criarCoracao, 200);
+        }
+
+        // Criador dinâmico de corações flutuantes no fundo
+        function criarCoracao() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Gera alguns corações iniciais
+        setInterval(criarCoracao, 600);
+    </script>
+</body>
+</html>
